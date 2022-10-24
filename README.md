@@ -1,5 +1,6 @@
 # GTDB-tk Snakemake Workflow
 
+It uses GTDB-tk to taxonomically annotate your genomes and to build a tree.
 
 Run as follows:
 ```
