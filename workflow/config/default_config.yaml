@@ -1,0 +1,3 @@
+threads: 8
+large_mem: 100
+simplejob_mem: 5

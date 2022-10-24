@@ -1,0 +1,37 @@
+
+
+gtdb_dir = "gtdb"
+
+
+from pathlib import Path
+workflow_folder = Path(workflow.snakefile).parent.resolve()
+
+
+
+# add default config
+# comand line adds user config
+configfile: str(workflow_folder/ "config"/ "default_config.yaml")
+
+
+include: "rules/gtdbtk.smk"
+
+
+
+rule all:
+    input:
+        "taxonomy/gtdb_taxonomy.tsv",
+        "tree/finished_gtdb_trees"
+        
+def all_gtdb_trees_input(wildcards):
+    dir = checkpoints.align.get().output[0]
+
+    domains = glob_wildcards(f"{dir}/gtdbtk.{{domain}}.user_msa.fasta.gz").domain
+
+    return expand("tree/gtdbtk.{domain}.nwk", domain=domains)
+
+
+rule all_gtdb_trees:
+    input:
+        all_gtdb_trees_input,
+    output:
+        touch("tree/finished_gtdb_trees"),
